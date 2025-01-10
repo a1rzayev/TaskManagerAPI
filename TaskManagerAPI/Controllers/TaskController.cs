@@ -3,7 +3,7 @@ using TaskManagerAPI.Models;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TasksController : ControllerBase
+public class TaskController : ControllerBase
 {
     private static readonly List<TaskModel> Tasks = new List<TaskModel>();
 
