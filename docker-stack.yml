@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  backend:
+    image: a1rzayev/taskmanager-backend:latest 
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "5001:80" 
+    environment:
+      - ConnectionStrings__Default=Server=db;Database=YourDatabase;User=sa;Password=YourPassword;
+    networks:
+      - app-net
+    depends_on:
+      - db
+
+  frontend:
+    image: a1rzayev/taskmanager-frontend:latest 
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "3000:80" 
+    networks:
+      - app-net
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=YourPassword123
+      - ACCEPT_EULA=Y
+    volumes:
+      - db-data:/var/opt/mssql
+    networks:
+      - app-net
+
+volumes:
+  db-data:
+
+networks:
+  app-net:
+    driver: overlay
